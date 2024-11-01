@@ -75,7 +75,7 @@ The client library consists of three main components:
     - **Comprehensive Logging**: Logs detailed information at each polling attempt, including status, progress, expected time, and waiting intervals, enhancing observability and aiding users in monitoring and troubleshooting.
 
 
-### Running the Server (Ensure server is up and running if video translation needs to checked manually)
+### Running the Server (Ensure server is up and running if video translation needs to be checked manually)
 
 The translation server simulates a video translation backend with a configurable random delay. You need to start the server before running the client.
 
@@ -130,14 +130,14 @@ const { StatusFetcher, AdaptivePollingStrategy, StatusChecker } = require("./cli
         - **Formulas Used**:
       
             - **Exponential Backoff Phase**: Uses `dynamicBaseInterval * (2 ** attempt)` to increase polling interval exponentially, ensuring fewer requests in the early stages when progress is low.
-            - **Progress-Based Linear Decay Phase**: Uses `dynamicBaseInterval + (dynamicMaxInterval - dynamicBaseInterval) * Math.exp(-progressFactor * 2.5)` to gradually decrease the interval as the job approaches completion, improving responsiveness.
+            - **Progress-Based Exponential Decay Phase**: Uses `dynamicBaseInterval + (dynamicMaxInterval - dynamicBaseInterval) * Math.exp(-progressFactor * 2.5)` to gradually decrease the interval as the job approaches completion, improving responsiveness.
               <br><br>
         - **Variables Explained**:
             - `dynamicMaxInterval`: Calculated as `expectedTime / 3.5` to define an optimal maximum polling interval based on the estimated job duration.
             - `dynamicBaseInterval`: Calculated as `expectedTime / 30` to define a suitable minimum interval for polling.
             - `progressFactor`: A normalized value representing the job's progress in the decay phase, calculated as `(progress - transitionProgress) / (100 - transitionProgress)`. This helps control how rapidly the polling interval decreases.
               <br><br>
-        - **Iterations for Optimization**: Multiple iterations and calculations were done to find suitable values for `expectedTime`, `transitionProgress`, and decay factors, ensuring an optimal balance between minimizing server load and maintaining timely status updates.
+        - **Iterations for Optimization**: Multiple iterations and calculations were done to find suitable values for `dynamicMaxInterval`, `dynamicBaseInterval`, `progressFactor` and `decayInterval`, ensuring an optimal balance between minimizing server load and maintaining timely status updates.
           <br><br>
 - **StatusChecker**:
   <br><br>
@@ -149,5 +149,5 @@ const { StatusFetcher, AdaptivePollingStrategy, StatusChecker } = require("./cli
 
 The Translation Client Library provides an optimized, user-friendly way to interact with a video translation backend. By using adaptive polling, it strikes the right balance between minimizing server load and ensuring timely updates for the user. The code is built following **modular and SOLID design principles**, which ensures maintainability and reusability. Each component (`StatusFetcher`, `AdaptivePollingStrategy`, `StatusChecker`) has a **single responsibility**, making it easier to update or extend individual parts without affecting the rest of the library.
 
-Additionally, features like **error handling** and **comprehensive logging** make the client robust and flexible for a variety of use cases. The inclusion of modern JavaScript features, detailed comments, and an automated integration test reflects a **customer-centric approach** that aims to provide a smooth experience for both developers and end-users.
+Additionally, features like **error handling** and **comprehensive logging** make the client robust. The inclusion of modern JavaScript features, detailed comments, and an automated integration test reflects a **customer-centric approach** that aims to provide a smooth experience for both developers and end-users.
 
