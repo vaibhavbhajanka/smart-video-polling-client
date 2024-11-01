@@ -6,6 +6,15 @@ The Translation Client Library is designed to interact with a simulated video tr
 
 ## Getting Started
 
+### Installation
+
+Clone the repository containing the server and client code, and navigate to the project directory:
+
+```bash
+git clone https://github.com/vaibhavbhajanka/video-translation.git
+cd video-translation
+```
+
 ### Prerequisites
 
 To use the client library, ensure you have the following installed:
@@ -18,15 +27,6 @@ The library depends on `axios` for making HTTP requests. Install it using the fo
 
 ```bash
 npm install axios
-```
-
-### Installation
-
-Clone the repository containing the server and client code, and navigate to the project directory:
-
-```bash
-git clone https://github.com/vaibhavbhajanka/video-translation.git
-cd video-translation
 ```
 
 ### Integration Test
@@ -93,7 +93,7 @@ Server running on http://localhost:5001
 Here's an example of how to use the client library to query the status of a translation job:
 
 ```javascript
-const { StatusFetcher, AdaptivePollingStrategy, StatusChecker } = require("client/src/translationClient");
+const { StatusFetcher, AdaptivePollingStrategy, StatusChecker } = require("./client/src/translationClient");
 
 (async () => {
     const fetcher = new StatusFetcher("http://localhost:5001/status");
