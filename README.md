@@ -13,7 +13,6 @@ To use the client library, ensure you have the following installed:
 - Node.js (v12 or above)
 - npm (Node Package Manager)
 
-The library is implemented using **modern JavaScript features** like `async/await` and ES6 classes, promoting cleaner, more readable, and maintainable code.
 
 The library depends on `axios` for making HTTP requests. Install it using the following command:
 
@@ -26,22 +25,34 @@ npm install axios
 Clone the repository containing the server and client code, and navigate to the project directory:
 
 ```bash
-git clone <repository_url>
-cd <repository_directory>
+git clone https://github.com/vaibhavbhajanka/video-translation.git
+cd video-translation
 ```
 
-### Running the Server
+### Integration Test
 
-The translation server simulates a video translation backend with a configurable random delay. You need to start the server before running the client.
+To demonstrate the client library's functionality, an integration test has been provided. The test spins up the server and uses the client library to fetch the final job status.
+
+- **Automation of Server Startup**: The integration test (`test/integration.test.js`) automatically starts the server as a child process before testing and uses Jest's `beforeAll` and `afterAll` hooks to manage server lifecycle.
+    - **Benefit**: This automation simplifies the testing process, ensuring the server is running and ready before tests execute, which demonstrates best practices and enhances developer experience.
+
+To run the integration test (Ensure you are in the root directory before running the integration test):
 
 ```bash
-node server/server.js
+npm test
 ```
 
-This will start the server on `http://localhost:5001`. You should see a message like:
+This will start the server, run the client library, and log the results.
+
+### Sample Output
+
+You may see logs like the following during execution:
 
 ```
-Server running on http://localhost:5001
+Attempt 1: Status - pending, Progress - 10%, Expected Time - 120000ms
+Waiting for 5 seconds before retrying...
+...
+Final Status: completed
 ```
 
 ### Using the Client Library
@@ -63,10 +74,26 @@ The client library consists of three main components:
    <br><br>
     - **Comprehensive Logging**: Logs detailed information at each polling attempt, including status, progress, expected time, and waiting intervals, enhancing observability and aiding users in monitoring and troubleshooting.
 
+
+### Running the Server (Ensure server is up and running if video translation needs to checked manually)
+
+The translation server simulates a video translation backend with a configurable random delay. You need to start the server before running the client.
+
+```bash
+node server/server.js
+```
+
+This will start the server on `http://localhost:5001`. You should see a message like:
+
+```
+Server running on http://localhost:5001
+```
+
+
 Here's an example of how to use the client library to query the status of a translation job:
 
 ```javascript
-const { StatusFetcher, AdaptivePollingStrategy, StatusChecker } = require("./src/translationClient");
+const { StatusFetcher, AdaptivePollingStrategy, StatusChecker } = require("client/src/translationClient");
 
 (async () => {
     const fetcher = new StatusFetcher("http://localhost:5001/status");
@@ -117,32 +144,6 @@ const { StatusFetcher, AdaptivePollingStrategy, StatusChecker } = require("./src
     - Coordinates the polling by using the **StatusFetcher** and **AdaptivePollingStrategy** to fetch the job status until a final status (`completed` or `error`) is reached.
     - Logs the status, progress, and expected time at each polling attempt.
     - Uses the adaptive polling strategy to determine the optimal waiting time between polling attempts, ensuring the client remains responsive and efficient.
-
-### Integration Test
-
-To demonstrate the client library's functionality, an integration test has been provided. The test spins up the server and uses the client library to fetch the final job status.
-
-- **Automation of Server Startup**: The integration test (`test/integration.test.js`) automatically starts the server as a child process before testing and uses Jest's `beforeAll` and `afterAll` hooks to manage server lifecycle.
-    - **Benefit**: This automation simplifies the testing process, ensuring the server is running and ready before tests execute, which demonstrates best practices and enhances developer experience.
-
-To run the integration test:
-
-```bash
-npm test
-```
-
-This will start the server, run the client library, and log the results.
-
-### Sample Output
-
-You may see logs like the following during execution:
-
-```
-Attempt 1: Status - pending, Progress - 10%, Expected Time - 120000ms
-Waiting for 5 seconds before retrying...
-...
-Final Status: completed
-```
 
 ## Conclusion
 
