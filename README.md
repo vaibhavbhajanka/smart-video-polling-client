@@ -29,6 +29,22 @@ The library depends on `axios` for making HTTP requests. Install it using the fo
 npm install axios
 ```
 
+### Assumptions
+
+#### Server
+
+1. The server has been updated to provide `progress` updates along with the status of video translation. These progress updates are essential for the hybrid polling strategy to function effectively, enabling dynamic adjustments based on job progress.
+<br><br>
+2. The server sends an `expectedTime` value, which is an approximate estimate of the time required for video translation completion. Due to the volatile nature of video translation, expectedTime cannot be exact but serves as a useful reference to dynamically determine suitable polling intervals.
+   <br><br>
+3. The server simulates video translation with a `randomly assigned delay` ranging between `1 to 3 minutes`. This delay is configurable and can be adjusted based on specific requirements.
+
+#### Client Library
+
+1. The `transitionProgress` parameter defines the point at which the polling strategy switches from an exponential backoff to an exponential decay. Currently, this value is set to `60%`, as experimentation and iterations demonstrated that this threshold offers an optimal balance between responsiveness and efficiency.
+   <br><br>
+2. The variables calculated within the `getInterval` function were determined through extensive experimentation. These factors aim to achieve an optimal polling strategy that balances efficiency in resource usage and responsiveness to updates, ensuring the client library is effective in varying scenarios.
+
 ### Integration Test
 
 To demonstrate the client library's functionality, an integration test has been provided. The test spins up the server and uses the client library to fetch the final job status.
