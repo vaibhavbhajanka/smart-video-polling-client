@@ -1,8 +1,8 @@
-# Translation Client Library - README
+# Adaptive Polling Client for Video Translation
 
 ## Overview
 
-The Translation Client Library is designed to interact with a simulated video translation backend. It provides an efficient way to repeatedly query the translation job status using an **Adaptive Polling Strategy** that dynamically adjusts polling intervals based on progress and expected completion time. This mechanism optimizes resource usage while ensuring timely updates, reducing unnecessary network requests during early stages and increasing polling frequency as the task nears completion. This documentation will guide you through the steps to use the client library effectively.
+The Adaptive Polling Client is designed to interact with a simulated video translation backend. It provides an efficient way to repeatedly query the translation job status using an **Adaptive Polling Strategy** that dynamically adjusts polling intervals based on progress and expected completion time. This mechanism optimizes resource usage while ensuring timely updates, reducing unnecessary network requests during early stages and increasing polling frequency as the task nears completion. This documentation will guide you through the steps to use the client library effectively.
 
 ## Getting Started
 

@@ -1,1 +1,13 @@
+# IDE and OS files
 .idea
+.DS_Store
+
+# Dependency folders
+node_modules/
+client/node_modules/
+server/node_modules/
+test/node_modules/
+
+# (Optional) Build artifacts
+dist/
+build/
